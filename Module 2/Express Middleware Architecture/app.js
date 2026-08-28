@@ -26,14 +26,17 @@ const postsRouter = require('./routes/posts');
 const usersRouter = require('./routes/users');
 
 // Your middleware live in ./middleware — implement them, then mount them below.
-// const requestId = require('./middleware/requestId');
-// const logger = require('./middleware/logger');
-// const timing = require('./middleware/timing');
+const requestId = require('./middleware/requestId');
+const logger = require('./middleware/logger');
+const timing = require('./middleware/timing');
 
 const app = express();
 
 // Built-in body parser so POST /posts can read req.body (already provided).
 app.use(express.json());
+app.use(requestId);
+app.use(logger);
+app.use(timing);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TODO: mount your GLOBAL middleware here, BEFORE the routers, in a deliberate
