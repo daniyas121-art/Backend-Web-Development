@@ -4,7 +4,8 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "test": "node test/api.test.js"
   },
   "dependencies": {
     "express": "^4.21.2"
