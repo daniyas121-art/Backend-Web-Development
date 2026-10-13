@@ -15,7 +15,18 @@ app.use((error, req, res, next) => {
 });
 
 if (require.main === module) {
-  app.listen(process.env.PORT || 3000, () => console.log('API listening'));
+  const prisma = require('./db/prisma');
+  const server = app.listen(process.env.PORT || 3000, () => console.log('API listening'));
+
+  async function shutdown() {
+    server.close(async () => {
+      await prisma.$disconnect();
+      process.exit(0);
+    });
+  }
+
+  process.once('SIGINT', shutdown);
+  process.once('SIGTERM', shutdown);
 }
 
 module.exports = app;
