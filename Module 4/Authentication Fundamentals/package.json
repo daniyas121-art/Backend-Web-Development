@@ -5,7 +5,8 @@
   "scripts": {
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "test": "node --test"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
