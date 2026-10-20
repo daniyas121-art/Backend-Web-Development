@@ -1,14 +1,24 @@
 const express = require('express');
-const router = express.Router();
+const { authService } = require('../services/authService');
 
-router.post('/register', async (req, res, next) => {
-  // TODO: validate, hash, persist, and return a safe 201 response.
-  return res.status(501).json({ error: { code: 'NOT_IMPLEMENTED', message: 'Implement registration' } });
-});
+function asyncHandler(handler) {
+  return (req, res, next) => Promise.resolve(handler(req, res, next)).catch(next);
+}
 
-router.post('/login', async (req, res, next) => {
-  // TODO: verify credentials and return the required generic failure response.
-  return res.status(501).json({ error: { code: 'NOT_IMPLEMENTED', message: 'Implement login' } });
-});
+function createAuthRouter(service = authService) {
+  const router = express.Router();
 
-module.exports = router;
+  router.post('/register', asyncHandler(async (req, res) => {
+    const user = await service.register(req.body);
+    return res.status(201).json(user);
+  }));
+
+  router.post('/login', asyncHandler(async (req, res) => {
+    const user = await service.login(req.body);
+    return res.status(200).json(user);
+  }));
+
+  return router;
+}
+
+module.exports = createAuthRouter;
